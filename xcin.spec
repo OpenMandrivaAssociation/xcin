@@ -36,6 +36,8 @@ Patch9:  xcin-2.5.3-simplex5_utf8.patch
 # Mandriva patches
 Patch100:	xcin-2.5.3-extra-im.patch
 Patch101:	xcin-2.5.3-xcinrc-mdk.patch
+# From Fedora
+Patch102:	xcin-2.5.3-no_rpath.patch
 
 Requires:	locales-zh
 Requires:	taipeifonts
@@ -44,6 +46,7 @@ BuildRequires:	X11-devel
 BuildRequires:	db4.1-devel
 BuildRequires:	tabe-devel
 BuildRequires:	gettext
+BuildRequires:	bzip2
 
 %description
 Xcin is an X Input Method allowing to type in Chinese in X applications that
@@ -81,6 +84,7 @@ follow the XIM input method standard.
 %patch9 -p1
 %patch100 -p1 -b .extra-im
 %patch101 -p1 -b .mdk
+%patch102 -p1 -b .rpath
 
 find . -type d -name CVS | xargs -r rm -rf
 
@@ -94,12 +98,20 @@ bzcat %{SOURCE1} > cin/big5/canton.cin
 #popd
 
 %build
+# From SUSE: re-generating configure fixes x86-64 build
+mv script/configure.in .
+# AdamW: Look for tabe .db files in /usr/share/tabe not /usr/lib/tabe
+perl -pi -e 's,/lib/tabe,/share/tabe,g' configure.in
+rm -f configure
+libtoolize --force
+aclocal
+autoconf
 # Geoff -- don't use percent-configure because it breaks program.
 CFLAGS="%optflags" CXXFLAGS="%optflags" ./configure \
 	--build=%_target_platform \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
-	--with-xcin-dir=%{_libdir}/xcin \
+	--with-xcin-dir=%{_prefix}/lib/xcin \
 	--with-xcin-rcdir=%{_sysconfdir}/chinese/xcin \
 	--with-dbinc=%{_includedir}/db4 \
 	--with-locale-dir=%{_datadir}/locale \
@@ -113,19 +125,23 @@ rm -rf %{buildroot}
 export program_prefix=%{buildroot}
 export xcin_rcp=%{buildroot}/%{_sysconfdir}/chinese/xcin
 make -e install
-# AdamW: move man page to the right place, configure doesn't respect --with-man-dir
-mkdir -p %buildroot/%_mandir/man1
-mv %buildroot/%_prefix/man/man1/* %buildroot/%_mandir/man1
+bzip2 %{buildroot}/%{_mandir}/man1/*
 
 %find_lang %{name}
 
+%clean
+rm -rf %{buildroot}
+
+%post -n %{libname} -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
+
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc doc/* 
+%doc doc/Bugs doc/CREDITS doc/Changes doc/Cin doc/En doc/FAQ doc/README doc/SETUP doc/Todo doc/Usage doc/UserGuide doc/internal doc/modules
 %dir %{_sysconfdir}/chinese/xcin
 %config(noreplace) %{_sysconfdir}/chinese/xcin/*
 %{_bindir}/*
-%{_libdir}/%{name}
+%{_prefix}/lib/%{name}
 %{_mandir}/man1/*
 
 %files -n %libname
@@ -136,6 +152,3 @@ mv %buildroot/%_prefix/man/man1/* %buildroot/%_mandir/man1
 %defattr(-,root,root)
 %_libdir/lib*.so
 %attr(644,root,root) %_libdir/lib*a
-
-%clean
-rm -rf %{buildroot}
