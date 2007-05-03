@@ -1,7 +1,7 @@
 %define version 2.5.3
-%define release 0.pre3.2mdk
-
-%define chewing_version	0.0.5.1
+%define release %mkrel 0.pre3.3
+%define major 0
+%define libname %mklibname %name %major
 %define canton_version	1.1
 
 Summary:	X Input Method Server for Chinese
@@ -22,30 +22,49 @@ Source1:	canton-%{canton_version}.cin.bz2
 #Source3:	chewing-%{chewing_version}.tar.bz2
 
 # Firefly patches
-Patch0:  xcin-2.5.3.pre3-xcinrc.LINUX-20040105.patch.bz2
-Patch1:  xcin-2.5.3.pre3-RootStyle-20040102.patch.bz2
-Patch2:  xcin-2.5.3.pre3-OverTheSpot-20040102.patch.bz2
-Patch3:  xcin-2.5.3.pre3-OnTheSpot-20040105.patch.bz2
-Patch4:  xcin-2.5.3.pre3-bimsphone-20040102.patch.bz2
-Patch5:  xcin-2.5.3-utf8-makefile-20031223.patch.bz2
-Patch6:  xcin-2.5.3.pre3-cin2tab-20040102.patch.bz2
-Patch7:  xcin-2.5.3-syscin_utf8.patch.bz2
-Patch8:  xcin-2.5.3-cj5_utf8.patch.bz2
-Patch9:  xcin-2.5.3-simplex5_utf8.patch.bz2
+Patch0:  xcin-2.5.3.pre3-xcinrc.LINUX-20040105.patch
+Patch1:  xcin-2.5.3.pre3-RootStyle-20040102.patch
+Patch2:  xcin-2.5.3.pre3-OverTheSpot-20040102.patch
+Patch3:  xcin-2.5.3.pre3-OnTheSpot-20040105.patch
+Patch4:  xcin-2.5.3.pre3-bimsphone-20040102.patch
+Patch5:  xcin-2.5.3-utf8-makefile-20031223.patch
+Patch6:  xcin-2.5.3.pre3-cin2tab-20040102.patch
+Patch7:  xcin-2.5.3-syscin_utf8.patch
+Patch8:  xcin-2.5.3-cj5_utf8.patch
+Patch9:  xcin-2.5.3-simplex5_utf8.patch
 
-# Mandrake patches
-Patch100:	xcin-2.5.3-extra-im.patch.bz2
-Patch101:	xcin-2.5.3-xcinrc-mdk.patch.bz2
+# Mandriva patches
+Patch100:	xcin-2.5.3-extra-im.patch
+Patch101:	xcin-2.5.3-xcinrc-mdk.patch
 
 Requires:	locales-zh
 Requires:	taipeifonts
-BuildRequires:	XFree86-devel
-BuildRequires:	db4-devel >= 4.1
-BuildRequires:	libtabe-devel >= 0.2.4a
+Requires:	tabe
+BuildRequires:	X11-devel
+BuildRequires:	db4.1-devel
+BuildRequires:	tabe-devel
 BuildRequires:	gettext
 
 %description
-Xcin is an X Input Method allowing to type in chinese in X applications that
+Xcin is an X Input Method allowing to type in Chinese in X applications that
+follow the XIM input method standard.
+
+%package -n %libname
+Group: System/Libraries
+Summary: Shared libraries of xcin
+
+%description -n %libname
+Xcin is an X Input Method allowing to type in Chinese in X applications that
+follow the XIM input method standard.
+
+%package -n %libname-devel
+Group: Development/C
+Summary: Development libraries of xcin
+Requires: %libname = %version
+Provides: lib%name-devel = %version-%release
+
+%description -n %libname-devel
+Xcin is an X Input Method allowing to type in Chinese in X applications that
 follow the XIM input method standard.
 
 %prep
@@ -78,9 +97,9 @@ bzcat %{SOURCE1} > cin/big5/canton.cin
 # Geoff -- don't use percent-configure because it breaks program.
 CFLAGS="%optflags" CXXFLAGS="%optflags" ./configure \
 	--build=%_target_platform \
-	--prefix=%{_prefix}/X11R6 \
-	--libdir=%{_prefix}/X11R6/%{_lib} \
-	--with-xcin-dir=%{_prefix}/X11R6/%{_lib}/X11/xcin \
+	--prefix=%{_prefix} \
+	--libdir=%{_libdir} \
+	--with-xcin-dir=%{_libdir}/xcin \
 	--with-xcin-rcdir=%{_sysconfdir}/chinese/xcin \
 	--with-dbinc=%{_includedir}/db4 \
 	--with-locale-dir=%{_datadir}/locale \
@@ -94,9 +113,9 @@ rm -rf %{buildroot}
 export program_prefix=%{buildroot}
 export xcin_rcp=%{buildroot}/%{_sysconfdir}/chinese/xcin
 make -e install
-
-# remove unneeded files
-rm -f %{buildroot}%{_prefix}/X11R6/lib/libxcin.{a,la}
+# AdamW: move man page to the right place, configure doesn't respect --with-man-dir
+mkdir -p %buildroot/%_mandir/man1
+mv %buildroot/%_prefix/man/man1/* %buildroot/%_mandir/man1
 
 %find_lang %{name}
 
@@ -105,10 +124,18 @@ rm -f %{buildroot}%{_prefix}/X11R6/lib/libxcin.{a,la}
 %doc doc/* 
 %dir %{_sysconfdir}/chinese/xcin
 %config(noreplace) %{_sysconfdir}/chinese/xcin/*
-%{_prefix}/X11R6/bin/*
-%{_prefix}/X11R6/%{_lib}/X11/xcin
-%{_prefix}/X11R6/%{_lib}/libxcin*
-%{_prefix}/X11R6/man/man1/*
+%{_bindir}/*
+%{_libdir}/%{name}
+%{_mandir}/man1/*
+
+%files -n %libname
+%defattr(-,root,root)
+%_libdir/lib*.so.%{major}*
+
+%files -n %libname-devel
+%defattr(-,root,root)
+%_libdir/lib*.so
+%attr(644,root,root) %_libdir/lib*a
 
 %clean
 rm -rf %{buildroot}
