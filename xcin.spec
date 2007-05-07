@@ -1,5 +1,5 @@
 %define version 2.5.3
-%define release %mkrel 0.pre3.3
+%define release %mkrel 0.pre3.4
 %define major 0
 %define libname %mklibname %name %major
 %define canton_version	1.1
@@ -46,7 +46,6 @@ BuildRequires:	X11-devel
 BuildRequires:	db4.1-devel
 BuildRequires:	tabe-devel
 BuildRequires:	gettext
-BuildRequires:	bzip2
 
 %description
 Xcin is an X Input Method allowing to type in Chinese in X applications that
@@ -125,7 +124,6 @@ rm -rf %{buildroot}
 export program_prefix=%{buildroot}
 export xcin_rcp=%{buildroot}/%{_sysconfdir}/chinese/xcin
 make -e install
-bzip2 %{buildroot}/%{_mandir}/man1/*
 
 %find_lang %{name}
 
