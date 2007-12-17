@@ -10,7 +10,6 @@ Version:	%{version}
 Release:	%{release}
 License:	GPL
 Group:		System/Internationalization
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 #Source0:	ftp://xcin.linux.org.tw/pub/xcin/xcin/%name-%version.tar.bz2
 Source0:	%{name}-2.5.3.pre3.tar.bz2
