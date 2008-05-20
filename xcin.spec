@@ -1,26 +1,18 @@
-%define version 2.5.3
-%define release %mkrel 0.pre3.4
 %define major 0
 %define libname %mklibname %name %major
+%define develname %mklibname %name -d
 %define canton_version	1.1
 
 Summary:	X Input Method Server for Chinese
 Name:		xcin
-Version:	%{version}
-Release:	%{release}
+Version:	2.5.3
+Release:	%mkrel 0.pre3.5
 License:	GPL
 Group:		System/Internationalization
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-
 #Source0:	ftp://xcin.linux.org.tw/pub/xcin/xcin/%name-%version.tar.bz2
 Source0:	%{name}-2.5.3.pre3.tar.bz2
 # http://hk.geocities.com/chandm9876/canton.htm
 Source1:	canton-%{canton_version}.cin.bz2
-# http://input.foruto.com/stroke5/
-#Source2:	stroke5-%{stroke5_version}.cin.bz2
-# http://chewing.good-man.org/
-#Source3:	chewing-%{chewing_version}.tar.bz2
-
 # Firefly patches
 Patch0:  xcin-2.5.3.pre3-xcinrc.LINUX-20040105.patch
 Patch1:  xcin-2.5.3.pre3-RootStyle-20040102.patch
@@ -32,20 +24,20 @@ Patch6:  xcin-2.5.3.pre3-cin2tab-20040102.patch
 Patch7:  xcin-2.5.3-syscin_utf8.patch
 Patch8:  xcin-2.5.3-cj5_utf8.patch
 Patch9:  xcin-2.5.3-simplex5_utf8.patch
-
 # Mandriva patches
 Patch100:	xcin-2.5.3-extra-im.patch
 Patch101:	xcin-2.5.3-xcinrc-mdk.patch
 # From Fedora
 Patch102:	xcin-2.5.3-no_rpath.patch
-
 Requires:	locales-zh
 Requires:	taipeifonts
 Requires:	tabe
 BuildRequires:	X11-devel
-BuildRequires:	db4.1-devel
+BuildRequires:	db4.2-devel
 BuildRequires:	tabe-devel
 BuildRequires:	gettext
+BuildRequires:	libtool
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Xcin is an X Input Method allowing to type in Chinese in X applications that
@@ -59,17 +51,19 @@ Summary: Shared libraries of xcin
 Xcin is an X Input Method allowing to type in Chinese in X applications that
 follow the XIM input method standard.
 
-%package -n %libname-devel
+%package -n %develname
 Group: Development/C
 Summary: Development libraries of xcin
 Requires: %libname = %version
 Provides: lib%name-devel = %version-%release
+Obsoletes: %{mklibname xcin 0 -d}
 
-%description -n %libname-devel
+%description -n %develname
 Xcin is an X Input Method allowing to type in Chinese in X applications that
 follow the XIM input method standard.
 
 %prep
+
 %setup -q -n %{name}
 %patch0 -p1
 %patch1 -p1 -b .Rootstyle
@@ -121,6 +115,7 @@ make
 
 %install
 rm -rf %{buildroot}
+
 export program_prefix=%{buildroot}
 export xcin_rcp=%{buildroot}/%{_sysconfdir}/chinese/xcin
 make -e install
@@ -131,6 +126,7 @@ make -e install
 rm -rf %{buildroot}
 
 %post -n %{libname} -p /sbin/ldconfig
+
 %postun -n %{libname} -p /sbin/ldconfig
 
 %files -f %{name}.lang
@@ -146,7 +142,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %_libdir/lib*.so.%{major}*
 
-%files -n %libname-devel
+%files -n %develname
 %defattr(-,root,root)
 %_libdir/lib*.so
 %attr(644,root,root) %_libdir/lib*a
