@@ -96,9 +96,7 @@ mv script/configure.in .
 # AdamW: Look for tabe .db files in /usr/share/tabe not /usr/lib/tabe
 perl -pi -e 's,/lib/tabe,/share/tabe,g' configure.in
 rm -f configure
-libtoolize --force
-aclocal
-autoconf
+autoreconf
 # Geoff -- don't use percent-configure because it breaks program.
 CFLAGS="%optflags" CXXFLAGS="%optflags" ./configure \
 	--build=%_target_platform \
