@@ -6,7 +6,7 @@
 Summary:	X Input Method Server for Chinese
 Name:		xcin
 Version:	2.5.3
-Release:	%mkrel 6.pre3.6
+Release:	6.pre3.7
 License:	GPL
 Group:		System/Internationalization
 #Source0:	ftp://xcin.linux.org.tw/pub/xcin/xcin/%name-%version.tar.bz2
@@ -33,7 +33,7 @@ Requires:	locales-zh
 Requires:	taipeifonts
 Requires:	tabe
 BuildRequires:	X11-devel
-BuildRequires:	db4.2-devel
+BuildRequires:	db-devel
 BuildRequires:	tabe-devel
 BuildRequires:	gettext
 BuildRequires:	libtool
