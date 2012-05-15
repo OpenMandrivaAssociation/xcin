@@ -29,6 +29,8 @@ Patch100:	xcin-2.5.3-extra-im.patch
 Patch101:	xcin-2.5.3-xcinrc-mdk.patch
 # From Fedora
 Patch102:	xcin-2.5.3-no_rpath.patch
+# From Suse
+Patch103:	xcin-2.5.3-locale_t.patch
 Requires:	locales-zh
 Requires:	taipeifonts
 Requires:	tabe
@@ -78,6 +80,7 @@ follow the XIM input method standard.
 %patch100 -p1 -b .extra-im
 %patch101 -p1 -b .mdk
 %patch102 -p1 -b .rpath
+%patch103 -p0 -b .localet
 
 find . -type d -name CVS | xargs -r rm -rf
 
@@ -96,8 +99,8 @@ mv script/configure.in .
 # AdamW: Look for tabe .db files in /usr/share/tabe not /usr/lib/tabe
 perl -pi -e 's,/lib/tabe,/share/tabe,g' configure.in
 rm -f configure
-libtoolize --force
-aclocal
+libtoolize --force -i
+aclocal 
 autoconf
 # Geoff -- don't use percent-configure because it breaks program.
 CFLAGS="%optflags" CXXFLAGS="%optflags" ./configure \
@@ -105,7 +108,7 @@ CFLAGS="%optflags" CXXFLAGS="%optflags" ./configure \
 	--libdir=%{_libdir} \
 	--with-xcin-dir=%{_prefix}/lib/xcin \
 	--with-xcin-rcdir=%{_sysconfdir}/chinese/xcin \
-	--with-dbinc=%{_includedir}/db4 \
+	--with-db-inc=%{_includedir}/db5 \
 	--with-locale-dir=%{_datadir}/locale \
 	--with-extra-prefix=%{_prefix}
 
