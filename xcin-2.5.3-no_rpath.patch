@@ -1,0 +1,23 @@
+--- xcin/cin/big5/Makefile.in.no_rpath	2003-12-02 16:15:54.000000000 +0100
++++ xcin/cin/big5/Makefile.in	2003-12-02 16:18:08.000000000 +0100
+@@ -2,8 +2,7 @@
+ top_srcdir  = @top_srcdir@
+ include $(top_srcdir)/Rules
+ 
+-build = $(top_srcdir)/libtool --mode=execute $(cin2tab)
+-
++build = $(top_srcdir)/libtool --mode=execute -dlopen $(top_srcdir)/src/lib/libxcin.la $(cin2tab) 
+ .PHONY: install clean distclean
+ 
+ all: all-$(OS_TYPE)
+--- xcin/cin/gb/Makefile.in.no_rpath	2003-12-02 16:19:00.000000000 +0100
++++ xcin/cin/gb/Makefile.in	2003-12-02 16:19:01.000000000 +0100
+@@ -2,7 +2,7 @@
+ top_srcdir  = @top_srcdir@
+ include $(top_srcdir)/Rules
+ 
+-build = $(top_srcdir)/libtool --mode=execute $(cin2tab)
++build = $(top_srcdir)/libtool --mode=execute -dlopen $(top_srcdir)/src/lib/libxcin.la $(cin2tab)
+ 
+ .PHONY: install clean distclean
+ 

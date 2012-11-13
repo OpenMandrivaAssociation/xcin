@@ -1,0 +1,56 @@
+--- xcin/cin/big5/Rules.extra-im	2004-02-02 20:53:56.372817000 +0800
++++ xcin/cin/big5/Rules	2004-02-02 21:19:08.243978240 +0800
+@@ -1,6 +1,7 @@
+ big5 = 		sys.tab.$(BIG5ENC) \
+ 		array30.tab.$(BIG5ENC) \
+ 		bims_pinyin.tab.$(BIG5ENC) \
++		canton.tab.$(BIG5ENC) \
+ 		cj.tab.$(BIG5ENC) \
+ 		phone.tab.$(BIG5ENC) \
+ 		pinyin.tab.$(BIG5ENC) \
+@@ -13,6 +14,7 @@
+ big5hkscs =	sys.tab.$(BIG5HKENC) \
+ 		array30.tab.$(BIG5HKENC) \
+ 		bims_pinyin.tab.$(BIG5HKENC) \
++		canton.tab.$(BIG5HKENC) \
+ 		cj.tab.$(BIG5HKENC) \
+ 		phone.tab.$(BIG5HKENC) \
+ 		pinyin.tab.$(BIG5HKENC) \
+@@ -23,6 +25,7 @@
+ 
+ utf-8 = 	sys.tab.$(UTF8ENC) \
+ 		array30.tab.$(UTF8ENC) \
++		canton.tab.$(UTF8ENC) \
+ 		cj.tab.$(UTF8ENC) \
+ 		cj5.tab.$(UTF8ENC) \
+ 		phone.tab.$(UTF8ENC) \
+@@ -51,6 +54,9 @@
+ bims_pinyin.tab.$(BIG5ENC): bims_pinyin.cin sys.tab.$(BIG5ENC)
+ 	$(build) -r $(xcinrc) -l $(BIG5ENC) \
+ 		-s sys.tab.$(BIG5ENC) -o $@ bims_pinyin.cin
++canton.tab.$(BIG5ENC): canton.cin sys.tab.$(BIG5ENC)
++	$(build) -r $(xcinrc) -l $(BIG5ENC) \
++		-s sys.tab.$(BIG5ENC) -o $@ canton.cin
+ cj.tab.$(BIG5ENC): cj.cin sys.tab.$(BIG5ENC)
+ 	$(build) -r $(xcinrc) -l $(BIG5ENC) \
+ 		-s sys.tab.$(BIG5ENC) -o $@ cj.cin
+@@ -84,6 +90,9 @@
+ bims_pinyin.tab.$(BIG5HKENC): bims_pinyin.cin sys.tab.$(BIG5HKENC)
+ 	$(build) -r $(xcinrc) -l $(BIG5HKENC) \
+ 		-s sys.tab.$(BIG5HKENC) -o $@ bims_pinyin.cin
++canton.tab.$(BIG5HKENC): canton.cin sys.tab.$(BIG5HKENC)
++	$(build) -r $(xcinrc) -l $(BIG5HKENC) \
++		-s sys.tab.$(BIG5HKENC) -o $@ canton.cin
+ cj.tab.$(BIG5HKENC): cj.cin sys.tab.$(BIG5HKENC)
+ 	$(build) -r $(xcinrc) -l $(BIG5HKENC) \
+ 		-s sys.tab.$(BIG5HKENC) -o $@ cj.cin
+@@ -115,6 +124,9 @@
+ array30.tab.$(UTF8ENC): array30.cin.$(UTF8ENC) sys.tab.$(UTF8ENC)
+ 	$(build) -r $(xcinrc) -l $(UTF8ENC) \
+ 		-s sys.tab.$(UTF8ENC) -o $@ array30.cin.$(UTF8ENC)
++canton.tab.$(UTF8ENC): canton.cin.$(UTF8ENC) sys.tab.$(UTF8ENC)
++	$(build) -r $(xcinrc) -l $(UTF8ENC) \
++		-s sys.tab.$(UTF8ENC) -o $@ canton.cin.$(UTF8ENC)
+ cj.tab.$(UTF8ENC): cj.cin.$(UTF8ENC) sys.tab.$(UTF8ENC)
+ 	$(build) -r $(xcinrc) -l $(UTF8ENC) \
+ 		-s sys.tab.$(UTF8ENC) -o $@ cj.cin.$(UTF8ENC)

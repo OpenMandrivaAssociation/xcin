@@ -1,0 +1,124 @@
+--- xcin/etc/xcinrc.LINUX.mdk	2004-02-03 00:52:35.000000000 +0800
++++ xcin/etc/xcinrc.LINUX	2004-02-03 03:46:41.057013344 +0800
+@@ -32,7 +32,7 @@
+ (define DIFF_BEEP		"YES")
+ (define KEYBOARD_TRANSLATE	"NO")
+ 
+-(define LOCALE	'(zh_TW.Big5 zh_HK.Big5HKSCS zh_CN.GB2312 zh_CN.GBK))
++(define LOCALE	'(zh_TW.UTF-8 zh_TW.Big5 zh_HK.Big5HKSCS zh_CN.GB2312 zh_CN.GBK))
+ 
+ ;
+ ;  XIM Input Style Adjustments.
+@@ -115,10 +115,9 @@
+     (DEFAULT_IM_MODULE  "gen_inp")
+     (DEFAULT_IM_SINMD   "DEFAULT")
+     (PHRASE             "default.phr")
+-    (CINPUT             (cj5 simplex5 phone jyutping bimspinyin bimsphone
+-                         array30 jyutping0 zh_hex))
+-    (FONTSET            "-*-ming(for iso10646)-medium-r-normal--24-0-0-0-c-0-iso10646-1,-*-medium-r-*-24-*-*")
+-    (OVERSPOT_FONTSET   "-*-ming(for iso10646)-medium-r-normal--16-0-0-0-c-0-iso10646-1,-*-medium-r-*-16-*-*")))
++    (CINPUT             (cj5 simplex5 phone bimspinyin bimsphone array30 canton jyutping zh_hex))
++    (FONTSET            "-*-ming(for iso10646)-medium-r-normal--16-0-0-0-c-0-iso10646-1,-*-medium-r-*-16-*-iso10646-1")
++    (OVERSPOT_FONTSET   "-*-ming(for iso10646)-medium-r-normal--16-0-0-0-c-0-iso10646-1,-*-medium-r-*-16-*-iso10646-1")))
+ 
+ (define cj5@utf-8
+         '((SETKEY               1)
+@@ -153,23 +152,22 @@
+           (DISABLE_SEL_LIST     "w")
+           (KEYSTROKE_REMAP      "t:0xaaba;T:0xaaba;")))
+ 
+-(define jyutping0@utf-8
++(define canton@utf-8
+         '((SETKEY               9)
+-          (BEEP_DUPCHAR         YES)))
++          ))
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;
+ ;  This is the global configuration of the zh_TW.Big5 locale 
+ ;
+ (define zh_TW.Big5 
+-  '((DEFAULT_IM		"cj")
++  '((DEFAULT_IM		"bimsphone")
+     (DEFAULT_IM_MODULE	"gen_inp")
+     (DEFAULT_IM_SINMD	"DEFAULT")
+     (PHRASE		"default.phr")
+-    (CINPUT		(cj simplex phone bimspinyin bimsphone jyutping
+-			 array30 jyutping0 zh_hex))
+-    (FONTSET		"-sony-*-24-*-iso8859-1,-*-medium-r-*-24-*-big5-0")
+-    (OVERSPOT_FONTSET	"-sony-*-16-*-iso8859-1,-*-medium-r-*-16-*-big5-0")))
++    (CINPUT		(cj simplex phone bimspinyin bimsphone array30 canton jyutping zh_hex))
++    (FONTSET		"-schumacher-clean-medium-r-normal--16-160-75-75-c-80-iso8859-1,-default-ming-medium-r-normal--16-*-*-*-c-*-big5-0,*")
++    (OVERSPOT_FONTSET	"-schumacher-clean-medium-r-normal--16-160-75-75-c-80-iso8859-1,-default-ming-medium-r-normal--16-*-*-*-c-*-big5-0,*")))
+ ;
+ ;  Here are detailed configuration of each IM (for zh_TW.Big5 locale).
+ ;
+@@ -203,9 +201,9 @@
+ 	  (DISABLE_SEL_LIST	"w")
+ 	  (KEYSTROKE_REMAP	"t:0xaaba;T:0xaaba;")))
+ 
+-(define jyutping0@big5
+-	'((SETKEY		9)
+-	  (BEEP_DUPCHAR		YES)))
++(define canton@big5
++        '((SETKEY               9)
++          ))
+ 
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+@@ -219,8 +217,8 @@
+     (PHRASE		"default.phr")
+     (CINPUT		(pinyin shuangpin jtcj_gb wubizixing phonegb2
+ 			 zh_hex))
+-    (FONTSET		"-sony-*-24-*-iso8859-1,-*-medium-r-*-24-*-gb2312.1980-0")
+-    (OVERSPOT_FONTSET	"-sony-*-16-*-iso8859-1,-*-medium-r-*-16-*-gb2312.1980-0")))
++    (FONTSET		"-schumacher-clean-medium-r-normal--16-160-75-75-c-80-iso8859-1,-*-medium-r-normal--16-*-*-*-c-*-gb2312.1980-0,*")
++    (OVERSPOT_FONTSET	"-schumacher-clean-medium-r-normal--16-160-75-75-c-80-iso8859-1,-*-medium-r-normal--16-*-*-*-c-*-gb2312.1980-0,*")))
+ ;
+ ;  Here are detailed configuration of each IM (for zh_CN.GB2312 locale).
+ ;
+@@ -253,10 +251,9 @@
+     (DEFAULT_IM_MODULE	"gen_inp")
+     (DEFAULT_IM_SINMD	"DEFAULT")
+     (PHRASE		"default.phr")
+-    (CINPUT             (cj simplex phone bimspinyin bimsphone jyutping
+-			 array30 jyutping0 zh_hex))
+-    (FONTSET		"-sony-*-24-*-iso8859-1,-*-medium-r-*-24-*-big5hkscs-0,-*-24-*-c-*-big5hkscs-0")
+-    (OVERSPOT_FONTSET	"-sony-*-16-*-iso8859-1,-*-medium-r-*-16-*-big5hkscs-0,-*-16-*-c-*-big5hkscs-0")))
++    (CINPUT             (cj simplex canton phone jyutping jyutping0 array30 zh_hex))
++    (FONTSET		"-schumacher-clean-medium-r-normal--16-160-75-75-c-80-iso8859-1,-*-medium-r-*-16-*-big5hkscs-0,-*-16-*-c-*-big5hkscs-0")
++    (OVERSPOT_FONTSET	"-schumacher-clean-medium-r-normal--16-160-75-75-c-80-iso8859-1,-*-medium-r-*-16-*-big5hkscs-0,-*-16-*-c-*-big5hkscs-0")))
+ ;
+ ;  Here are detailed configuration of each IM (for zh_HK.Big5HKSCS locale).
+ ;
+@@ -276,13 +273,10 @@
+ 	  (END_KEY		YES)
+ 	  (BEEP_DUPCHAR		YES)))
+ 
+-(define bimsphone@big5hkscs
+-	'((SETKEY		6)
+-	  (MODULE		"bimsphone")))
+-
+-(define bimspinyin@big5hkscs
+-	'((SETKEY		7)
+-	  (MODULE		"bimsphone")))
++(define jyutping0@big5hkscs
++	'((SETKEY		5)
++	  (END_KEY		YES)
++	  (BEEP_DUPCHAR		YES)))
+ 
+ (define array30@big5hkscs
+ 	'((SETKEY		8)
+@@ -290,10 +284,8 @@
+ 	  (DISABLE_SEL_LIST	"w")
+ 	  (KEYSTROKE_REMAP	"t:0xaaba;T:0xaaba;")))
+ 
+-(define jyutping0@big5hkscs
+-	'((SETKEY		9)
+-	  (END_KEY		YES)
+-	  (BEEP_DUPCHAR		YES)))
++(define canton@big5hkscs
++	'((SETKEY		9)))
+ 
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
