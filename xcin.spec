@@ -152,3 +152,52 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %_libdir/lib*.so
 %attr(644,root,root) %_libdir/lib*a
+
+
+%changelog
+* Tue May 15 2012 Crispin Boylan <crisb@mandriva.org> 2.5.3-6.pre3.7
++ Revision: 799084
+- Add patch 103 from suse for locale_t clash
+- Rebuild
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+
+* Sat Aug 09 2008 Thierry Vignaud <tv@mandriva.org> 2.5.3-6.pre3.5mdv2009.0
++ Revision: 269765
+- rebuild early 2009.0 package (before pixel changes)
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+* Tue May 20 2008 Oden Eriksson <oeriksson@mandriva.com> 2.5.3-0.pre3.5mdv2009.0
++ Revision: 209495
+- build it against bdb 4.2
+- fix devel package naming
+
+* Fri Dec 21 2007 Olivier Blin <blino@mandriva.org> 2.5.3-0.pre3.4mdv2008.1
++ Revision: 136578
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Mon May 07 2007 Thierry Vignaud <tv@mandriva.org> 2.5.3-0.pre3.4mdv2008.0
++ Revision: 24601
+- no need to compress man pages (spec-helper is already doing this)
+
+* Fri May 04 2007 Adam Williamson <awilliamson@mandriva.org> 2.5.3-0.pre3.3mdv2008.0
++ Revision: 22145
+- only package relevant docs
+- run ldconfig
+- bzip manpage
+- install static stuff and plugins to /usr/lib not libdir
+- fix build on x86-64
+- rebuild for new era
+- don't install to /usr/X11R6
+- update requires
+- bunzip2 patches
+- libify
+- clean spec
+- Import xcin
+
