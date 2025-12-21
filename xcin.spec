@@ -34,6 +34,11 @@ Patch103:	xcin-2.5.3-locale_t.patch
 Requires:	locales-zh
 Requires:	taipeifonts
 Requires:	tabe
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	X11-devel
 BuildRequires:	db-devel
 BuildRequires:	tabe-devel
